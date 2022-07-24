@@ -1,18 +1,20 @@
+#include <bits/stdc++.h>
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
 #include <stdlib.h>
+using namespace std;
 #define MAX 30
 struct Patient_Details
 {
     int Patient_ID;
-    char Name[MAX];
-    char Dept[MAX];
+    string Name;
+    string Dept;
     int Date_Of_Admission[MAX];
     int Date_Of_Release[MAX];
-    char Investigating_Doctor_name[MAX];
-    char Disease[MAX];
-    char Gaurdian_name[MAX];
+    string Investigating_Doctor_name;
+    string Disease;
+    string Gaurdian_name;
     char Emergency_contact_no[MAX];
     int Fee_due;
     int Age;
@@ -23,48 +25,47 @@ struct Patient_Details
     struct Patient_Details *next;
 };
 typedef struct Patient_Details *NODE;
-#define MALLOC(p, s, t)                  \
-    p = (t)malloc(s);                    \
-    if (p == NULL)                       \
-    {                                    \
-        printf("Insufficient Memory\n"); \
-        exit;                            \
+#define MALLOC(p, s, t)                  
+    p = (t)malloc(s);                    
+    if (p == NULL)                       
+    {                                    
+        printf("Insufficient Memory\n"); 
+        exit;                            
     }
 
 int patient_ID = 0;
 int age;
 char blood[MAX];
-char name[MAX];
-char Dept[MAX];
+string name;
+string Dept;
 int DOA[MAX];
 int DOR[MAX];
-char investigating_Doctor_name[MAX];
-char disease[MAX];
-char gaurdian_name[MAX];
+string investigating_Doctor_name;
+string disease;
+string gaurdian_name;
 char emergency_contact_no[MAX];
-int fee_due;
+long long fee_due;
 char phNo[MAX];
-
 
 void display_individual(NODE t)
 {
     int i;
     printf("Patient_ID                           = %d\n", t->Patient_ID);
-    printf("Name                                 = %s\n", t->Name);
+    cout<<"Name                                 "<<t->Name<<endl;
     printf("Age                                  = %d\n", t->Age);
-    printf("Department                           = %s\n", t->Dept);
-
-    printf("Date Of Admission                    = %d/%d/%d\n", t->Date_Of_Admission[0], t->Date_Of_Admission[1], t->Date_Of_Admission[2]);
-
-    printf("Date Of Release                      = %d/%d/%d\n", t->Date_Of_Release[0], t->Date_Of_Release[1], t->Date_Of_Release[2]);
-    printf("Investigating Doctor Name            = %s\n", t->Investigating_Doctor_name);
-    printf("Disease Name                         = %s\n", t->Disease);
+    cout<<"Department                            "<<t->Dept<<endl;
+    for (i = 0; i < 3; i++)
+        printf("Date Of Admission                    = %d\n", t->Date_Of_Admission[i]);
+    for (i = 0; i < 3; i++)
+        printf("Date Of Release                      = %d\n", t->Date_Of_Release[i]);
+    cout<<"Investigating Doctor Name            = "<<t->Investigating_Doctor_name<<endl;
+    cout<<"Disease Name                         = "<<t->Disease<<endl;
     printf("Blood Group                          = %s\n", t->blood);
-    printf("Gaurdian Name                        = %s\n", t->Gaurdian_name);
+    cout<<"Gaurdian Name                        = "<<t->Gaurdian_name<<endl;
     printf("Emergency Contact Number             = %s\n", t->Emergency_contact_no);
     printf("Phone Number                         = %s\n", t->PhNo);
     printf("Patient Available in Hospital or Not = %c\n", t->available);
-    printf("Amount to be Paid                    = %d\n", t->Fee_due);
+    cout << "amount to be paid:\t" << t->Fee_due << endl;
 }
 
 void search(NODE first)
@@ -88,14 +89,14 @@ void search(NODE first)
             scanf("%s", name);
             while (temp != first)
             {
-                if (strcmp(name, temp->Name) == 0)
+                if (name==temp->Name)
                 {
                     c = c + 1;
                     display_individual(temp);
                 }
                 temp = temp->next;
             }
-            if (strcmp(name, temp->Name) == 0)
+            if (name==temp->Name)
             {
                 c = c + 1;
                 display_individual(temp);
@@ -111,17 +112,17 @@ void search(NODE first)
         {
             temp = first->next;
             printf("Enter Department\n");
-            scanf("%s", Dept);
+            cin>>Dept;
             while (temp != first)
             {
-                if (strcmp(Dept, temp->Dept) == 0)
+                if (Dept==temp->Dept)
                 {
                     c = c + 1;
                     display_individual(temp);
                 }
                 temp = temp->next;
             }
-            if (strcmp(Dept, temp->Dept) == 0)
+            if (Dept==temp->Dept)
             {
                 c = c + 1;
                 display_individual(temp);
@@ -260,7 +261,7 @@ int days_admitted()
     return (diff + 1);
 }
 
-
+//      Code By Divyansh
 void bill(NODE first, int days) // days=no. of days stayed in hospital
 {
     int medicine_charge, bed_charge, total_charge, tax, pid, flag;
@@ -276,13 +277,11 @@ void bill(NODE first, int days) // days=no. of days stayed in hospital
     {
         printf("No Patient Entry\n");
     }
-    else if (x->next == NULL)
-    {
+    else if (x->next == first)
         if (x->Patient_ID == pid)
             display_individual(x);
         else
             printf("Patient with given patient ID does not exist ! \n");
-    }
 
     if (x->Patient_ID == pid)
         display_individual(x);
@@ -302,42 +301,42 @@ void bill(NODE first, int days) // days=no. of days stayed in hospital
     {
         printf("Patient with given patient ID does not exist ! \n");
     }
-    else if (strcmp(x->Dept, "AND") == 0)
+    else if (x->Dept=="AND")
     {
         charge = 2000;
         medicine_charge = 1000;
     }
-    else if (strcmp(x->Dept, "AYU") == 0)
+    else if (x->Dept=="AYU")
     {
         charge = 500;
         medicine_charge = 300;
     }
-    else if (strcmp(x->Dept, "CAR") == 0)
+    else if (x->Dept=="CAR" )
     {
         charge = 40000;
         medicine_charge = 5000;
     }
-    else if (strcmp(x->Dept, "DEN") == 0)
+    else if (x->Dept=="DEN")
     {
         charge = 1200;
         medicine_charge = 300;
     }
-    else if (strcmp(x->Dept, "DIA") == 0)
+    else if (x->Dept=="DIA")
     {
         charge = 1300;
         medicine_charge = 500;
     }
-    else if (strcmp(x->Dept, "NEP") == 0)
+    else if (x->Dept=="NEP")
     {
         charge = 15000;
         medicine_charge = 4000;
     }
-    else if (strcmp(x->Dept, "NEU") == 0)
+    else if (x->Dept=="NEU")
     {
         charge = 60000;
         medicine_charge = 9000;
     }
-    else if (strcmp(x->Dept, "ONC") == 0)
+    else if (x->Dept=="ONC")
     {
         charge = 700;
         medicine_charge = 200;
@@ -353,8 +352,9 @@ void bill(NODE first, int days) // days=no. of days stayed in hospital
     }
     tax = total_charge + ((total_charge * 3) / 100);
     fcharge = total_charge + tax;
-    printf("Name = %s \n charge = %f \n medicine charge= %d \n bed charge= %d \t \t \t age discount= %f \n tax= %d \n fcharge= %f \n ",
-           x->Name, charge, medicine_charge, bed_charge, age_discount, tax, fcharge);
+    cout<<x->Name<<endl;
+    printf("charge = %f \n medicine charge= %d \n bed charge= %d \t \t \t age discount= %f \n tax= %d \n fcharge= %f \n ",
+            charge, medicine_charge, bed_charge, age_discount, tax, fcharge);
     x->available = 'N';
     x->Fee_due = fcharge;
 }
@@ -380,8 +380,8 @@ void update(int key, NODE first)
                 {
                 case 1:
                     printf("Enter the New Name\n");
-                    scanf("%s", name);
-                    strcpy(cur->Name, name);
+                    cin>>name;
+                    cur->Name=name;
                     break;
                 case 2:
                     printf("Enter the Correct Age\n");
@@ -391,8 +391,8 @@ void update(int key, NODE first)
                 case 3:
                     printf("Enter the New Department\n");
                     printf("Enter Deparment code :\n 1.AND - ANDROLOGY \n2. AYU - AYURVEDIC  \n3.CAR - CARDIOLOGY \n4.DEN  - DENTAL \n5.DIA - DIABETES \n6.NEP - NEPHROLOGY\n7.NEU - NEUROLOGY \n8.ONC - ONCOLOGY\n");
-                    scanf("%s", Dept);
-                    strcpy(first->Dept, Dept);
+                    cin>>Dept;
+                    first->Dept=Dept;
                     break;
                 case 4:
                     printf("Enter Patient Date of Admission\n");
@@ -418,18 +418,18 @@ void update(int key, NODE first)
 
                 case 6:
                     printf("Enter the New Investigating Doctor\n");
-                    scanf("%s", investigating_Doctor_name);
-                    strcpy(cur->Investigating_Doctor_name, investigating_Doctor_name);
+                    cin>>investigating_Doctor_name;
+                    cur->Investigating_Doctor_name=investigating_Doctor_name;
                     break;
                 case 7:
                     printf("Enter the New Disease Name\n");
-                    scanf("%s", disease);
-                    strcpy(cur->Disease, disease);
+                    cin>>disease;
+                    cur->Disease=disease;
                     break;
                 case 8:
                     printf("Enter the New Guardian Name\n");
-                    scanf("%s", gaurdian_name);
-                    strcpy(cur->Gaurdian_name, gaurdian_name);
+                    cin>>gaurdian_name;
+                    cur->Gaurdian_name=gaurdian_name;
                     break;
                 case 9:
                     printf("Enter the New Emergency Contact Number \n");
@@ -457,8 +457,8 @@ void update(int key, NODE first)
             {
             case 1:
                 printf("Enter the New Name\n");
-                scanf("%s", name);
-                strcpy(cur->Name, name);
+                cin>>name;
+                cur->Name=name;
                 break;
             case 2:
                 printf("enter the New Age\n");
@@ -468,8 +468,8 @@ void update(int key, NODE first)
             case 3:
                 printf("Enter the New Department\n");
                 printf("Enter Deparment Code :\n 1.AND - ANDROLOGY \n 2. AYU - AYURVEDIC  \n 3.CAR - CARDIOLOGY \n 4.DEN  - DENTAL \n 5.DIA - DIABETES \n 6.NEP - NEPHROLOGY \n 7.NEU - NEUROLOGY \n 8.ONC - ONCOLOGY \n ");
-                scanf("%s", Dept);
-                strcpy(cur->Dept, Dept);
+                cin>>Dept;
+                cur->Dept=Dept;
                 break;
             case 4:
                 printf("Enter Patient Date of Admission\n");
@@ -495,18 +495,18 @@ void update(int key, NODE first)
 
             case 6:
                 printf("Enter the New Investigating Doctor\n");
-                scanf("%s", investigating_Doctor_name);
-                strcpy(cur->Investigating_Doctor_name, investigating_Doctor_name);
+                cin>>investigating_Doctor_name;
+                cur->Investigating_Doctor_name=investigating_Doctor_name;
                 break;
             case 7:
                 printf("Enter the New Disease Name\n");
-                scanf("%s", disease);
-                strcpy(cur->Disease, disease);
+                cin>>disease;
+                cur->Disease=disease;
                 break;
             case 8:
                 printf("Enter the New Guardian Name\n");
-                scanf("%s", gaurdian_name);
-                strcpy(cur->Gaurdian_name, gaurdian_name);
+                cin>>gaurdian_name;
+                cur->Gaurdian_name=gaurdian_name;
                 break;
             case 9:
                 printf("Enter the New Emergency Contact Number \n");
@@ -525,12 +525,12 @@ void update(int key, NODE first)
     }
 }
 
-
+//  Code by Himank
 
 void ReadData()
 {
     printf("Enter Patient Name\n");
-    scanf("%s", name);
+    cin>>name;
     printf("Enter Patient Age\n");
     scanf("%d", &age);
     printf("Enter Patient Blood Group\n");
@@ -551,18 +551,18 @@ void ReadData()
     scanf("%d", &DOR[2]);
 
     printf("Enter Deparment Code :\n 1.AND - ANDROLOGY \n 2. AYU - AYURVEDIC  \n 3.CAR - CARDIOLOGY \n 4.DEN  - DENTAL \n 5.DIA - DIABETES \n 6.NEP - NEPHROLOGY \n 7.NEU - NEUROLOGY \n 8.ONC - ONCOLOGY \n");
-    scanf("%s", Dept);
+    cin>>Dept;
 
     printf("Enter Disease Name\n");
-    scanf("%s", disease);
+    cin>>disease;
     printf("Guardian Name\n");
-    scanf("%s", gaurdian_name);
+    cin>>gaurdian_name;
     printf("Enter Patient Phone Number\n");
     scanf("%s", phNo);
     printf("Enter Patient Emergency Contact Number\n");
     scanf("%s", emergency_contact_no);
     printf("Enter Investigating  Doctor Name\n");
-    scanf("%s", investigating_Doctor_name);
+    cin>>investigating_Doctor_name;
 }
 
 NODE insert(NODE first)
@@ -573,18 +573,18 @@ NODE insert(NODE first)
     patient_ID = patient_ID + 1;
     q->Patient_ID = patient_ID;
     q->Age = age;
-    strcpy(q->Dept, Dept);
-    strcpy(q->Name, name);
+    q->Dept=Dept;
+    q->Name=name;
     for (i = 0; i < 3; i++)
         q->Date_Of_Admission[i] = DOA[i];
     for (i = 0; i < 3; i++)
         q->Date_Of_Release[i] = DOR[i];
     strcpy(q->blood, blood);
-    strcpy(q->Disease, disease);
+    q->Disease=disease;
     strcpy(q->PhNo, phNo);
-    strcpy(q->Gaurdian_name, gaurdian_name);
+    q->Gaurdian_name=gaurdian_name;
     strcpy(q->Emergency_contact_no, emergency_contact_no);
-    strcpy(q->Investigating_Doctor_name, investigating_Doctor_name);
+    q->Investigating_Doctor_name=investigating_Doctor_name;
     q->available = 'Y';
     if (first == NULL)
     {
